@@ -1,5 +1,3 @@
-<!-- templates/result_csv.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,26 +9,35 @@
 <body>
     <!-- Heading for the CSV Analysis Result -->
     <h1>CSV Analysis Result</h1>
-    
-    <!-- Check if a file path is provided -->
     {% if file_path %}
-        <!-- Display the file path -->
-        <p>File Path: {{ file_path }}</p>
-        
-        <!-- Check if there is data to display in the table -->
-        {% if table %}
-            <!-- Render the HTML table content (using |safe to render HTML) -->
-            {{ table|safe }}
-        {% else %}
-            <!-- Display a message if there is no data to display -->
-            <p>No data to display.</p>
-        {% endif %}
+    <p>File Path: {{ file_path }}</p>
+    {% if table %}
+        <h2>CSV Analysis Table:</h2>
+        {{ table|safe }}
     {% else %}
-        <!-- Display a message if no CSV file is uploaded -->
-        <p>No CSV file uploaded.</p>
+        <p>No data to display.</p>
     {% endif %}
 
-    <!-- Link to go back to the home page -->
+    <h2>Summary Statistics:</h2>
+    <p>Average Sentiment Score: {{ avg_sentiment }}</p>
+
+    <!-- Display Distribution of Scores -->
+    <h3>Distribution of Scores:</h3>
+    <ul>
+        {% for score, count in distribution_of_scores.items() %}
+            <li>Score: {{ score }}, Number of Reviews: {{ count }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Display Number of Reviews -->
+    <p>Total Number of Reviews: {{ num_reviews }}</p>
+    
+    <h2>Sentiment Distribution:</h2>
+    <!-- <img src="data:image/png;base64,{{ chart_url }}" alt="Sentiment Distribution Chart"> -->
+    <p><a href="{{ file_path }}" target="_blank">Download CSV</a></p>
+{% else %}
+    <p>No CSV file uploaded.</p>
+{% endif %}
     <a href="/">Back to Home</a>
 </body>
 </html>
