@@ -17,6 +17,38 @@ def analyze_csv(file_path):
     df['Sentiment'] = df['Review'].apply(analyze_sentiment)
     return df
 
+# Section 3: Summary Statistics - Calculate and display summary statistics
+  #  for the entire dataset, such as the average sentiment score, distribution 
+     # of scores, and the number of reviews in each sentiment category.
+def calculate_summary_statistics(df):
+    avg_sentiment = df['Sentiment'].mean()
+    sentiment_counts = df['Sentiment'].value_counts().sort_index()
+    distribution_of_scores = dict(sentiment_counts)
+    num_reviews = df.shape[0]
+
+    return avg_sentiment, sentiment_counts.to_dict(), distribution_of_scores, num_reviews
+
+# Section 4: Visualizations - Bar charts, Pie charts and Histrograms
+# def create_sentiment_distribution_chart(sentiment_counts):
+    # plt.figure(figsize=(8, 6))
+    # sentiment_counts.plot(kind='bar', color='skyblue')
+    # plt.title('Sentiment Distribution')
+    # plt.xlabel('Sentiment Score')
+    # plt.ylabel('Number of Reviews')
+    # plt.xticks(rotation=0)
+    # plt.tight_layout()
+
+    # # Save the plot to a BytesIO object
+    # img = BytesIO()
+    # plt.savefig(img, format='png')
+    # img.seek(0)
+
+    # # Encode the image as base64 and convert it to a string to embed in HTML
+    # chart_url = base64.b64encode(img.getvalue()).decode()
+    # plt.close()
+
+    # return chart_url
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -34,8 +66,17 @@ def analyze_csv_route():
         file_path = "uploads/" + uploaded_file.filename
         uploaded_file.save(file_path)
         df = analyze_csv(file_path)
+
+         # Calculate summary statistics
+        avg_sentiment, sentiment_count, distribution_of_scores, num_reviews = calculate_summary_statistics(df)
+
+        # chart_url = create_sentiment_distribution_chart(sentiment_counts)
+
         
-        return render_template('result_csv.html', table=df.to_html(), file_path=file_path)
+        return render_template('result_csv.html', table=df.to_html(), file_path=file_path, avg_sentiment = avg_sentiment,distribution_of_scores=distribution_of_scores,
+                               num_reviews=num_reviews, 
+                            #    chart_url=chart_url
+                               )
     else:
         return render_template('index.html', error='Please upload a CSV file.')
 
