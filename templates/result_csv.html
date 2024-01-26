@@ -4,40 +4,114 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1, h2, h3 {
+            color: #007bff;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
     <title>CSV Analysis Result</title>
 </head>
 <body>
-    <!-- Heading for the CSV Analysis Result -->
-    <h1>CSV Analysis Result</h1>
-    {% if file_path %}
-    <p>File Path: {{ file_path }}</p>
-    {% if table %}
-        <h2>CSV Analysis Table:</h2>
-        {{ table|safe }}
-    {% else %}
-        <p>No data to display.</p>
-    {% endif %}
+    <div class="container">
+        <!-- Heading for the CSV Analysis Result -->
+        <h1 class="display-4">CSV Analysis Result</h1>
+        {% if file_path %}
+            <p class="lead">File Path: {{ file_path }}</p>
+            {% if table %}
+                <div class="table-responsive">
+                    <h2 class="mt-4">CSV Analysis Table:</h2>
+                    {{ table|safe }}
+                </div>
+            {% else %}
+                <p>No data to display.</p>
+            {% endif %}
 
-    <h2>Summary Statistics:</h2>
-    <p>Average Sentiment Score: {{ avg_sentiment }}</p>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h2>Summary Statistics:</h2>
+                    <p>Average Sentiment Score: {{ avg_sentiment }}</p>
+                    <p>Total Number of Reviews: {{ num_reviews }}</p>
+                    <p>Overall Sentiment: {{ overall_sentiment }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h2>Distribution of Scores:</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Score</th>
+                                <th>Number of Reviews</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for score, count in distribution_of_scores.items() %}
+                                <tr>
+                                    <td>{{ score }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-    <!-- Display Distribution of Scores -->
-    <h3>Distribution of Scores:</h3>
-    <ul>
-        {% for score, count in distribution_of_scores.items() %}
-            <li>Score: {{ score }}, Number of Reviews: {{ count }}</li>
-        {% endfor %}
-    </ul>
+            <h2 class="mt-4">Sentiment Distribution:</h2>
+            <!-- Display Pie Chart -->
+            <img src="data:image/png;base64,{{ chart_url_pie }}" alt="Sentiment Pie Chart">
+            <!-- Display Bar Chart -->
+            <h2>Sentiment Distribution (Bar Chart):</h2>
+            <img src="data:image/png;base64,{{ chart_url_bar }}" alt="Sentiment Bar Chart">
+            <!-- Display Histogram -->
+            <h2>Sentiment Distribution (Histogram):</h2>
+            <img src="data:image/png;base64,{{ chart_url_histogram }}" alt="Sentiment Histogram">
+            
+            <p><a href="{{ file_path }}" target="_blank" class="btn btn-primary">Download CSV</a></p>
+        {% else %}
+            <p class="lead">No CSV file uploaded.</p>
+        {% endif %}
+        <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
 
-    <!-- Display Number of Reviews -->
-    <p>Total Number of Reviews: {{ num_reviews }}</p>
-    
-    <h2>Sentiment Distribution:</h2>
-    <!-- <img src="data:image/png;base64,{{ chart_url }}" alt="Sentiment Distribution Chart"> -->
-    <p><a href="{{ file_path }}" target="_blank">Download CSV</a></p>
-{% else %}
-    <p>No CSV file uploaded.</p>
-{% endif %}
-    <a href="/">Back to Home</a>
+    <!-- Link to Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
