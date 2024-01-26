@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character set and viewport -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Link to Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles -->
     <style>
         body {
             padding: 20px;
@@ -21,7 +25,7 @@
         }
 
         h1, h2, h3 {
-            color: #007bff;
+            color: #007bff; /* Bootstrap primary color */
         }
 
         .table {
@@ -39,7 +43,7 @@
         }
 
         a {
-            color: #007bff;
+            color: #007bff; /* Bootstrap primary color */
             text-decoration: none;
         }
 
@@ -47,32 +51,76 @@
             text-decoration: underline;
         }
     </style>
+    
+    <!-- Title of the page -->
     <title>CSV Analysis Result</title>
 </head>
 <body>
+    <!-- Bootstrap container for styling -->
     <div class="container">
         <!-- Heading for the CSV Analysis Result -->
         <h1 class="display-4">CSV Analysis Result</h1>
+        
+        <!-- Check if a CSV file is uploaded -->
         {% if file_path %}
+            <!-- Display file path -->
             <p class="lead">File Path: {{ file_path }}</p>
+            
+            <!-- Check if there is data to display in the table -->
             {% if table %}
+                <!-- Display CSV Analysis Table -->
                 <div class="table-responsive">
                     <h2 class="mt-4">CSV Analysis Table:</h2>
                     {{ table|safe }}
                 </div>
             {% else %}
+                <!-- Display message if no data to display -->
                 <p>No data to display.</p>
             {% endif %}
 
+            <!-- Summary Statistics and Distribution of Scores -->
             <div class="row mt-4">
+                <!-- Left column for Summary Statistics -->
                 <div class="col-md-6">
                     <h2>Summary Statistics:</h2>
                     <p>Average Sentiment Score: {{ avg_sentiment }}</p>
                     <p>Total Number of Reviews: {{ num_reviews }}</p>
                     <p>Overall Sentiment: {{ overall_sentiment }}</p>
+
+                    <!-- Most Positive Comment Table -->
+                    <h2>Most Positive Comment:</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ most_positive_comment }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Most Negative Comment Table -->
+                    <h2>Most Negative Comment:</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ most_negative_comment }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <!-- Right column for Distribution of Scores -->
                 <div class="col-md-6">
                     <h2>Distribution of Scores:</h2>
+                    <!-- Display a table for the distribution -->
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -81,6 +129,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Iterate through scores and counts -->
                             {% for score, count in distribution_of_scores.items() %}
                                 <tr>
                                     <td>{{ score }}</td>
@@ -92,6 +141,7 @@
                 </div>
             </div>
 
+            <!-- Visualizations: Pie Chart, Bar Chart, and Histogram -->
             <h2 class="mt-4">Sentiment Distribution:</h2>
             <!-- Display Pie Chart -->
             <img src="data:image/png;base64,{{ chart_url_pie }}" alt="Sentiment Pie Chart">
@@ -102,10 +152,14 @@
             <h2>Sentiment Distribution (Histogram):</h2>
             <img src="data:image/png;base64,{{ chart_url_histogram }}" alt="Sentiment Histogram">
             
+            <!-- Download CSV button -->
             <p><a href="{{ file_path }}" target="_blank" class="btn btn-primary">Download CSV</a></p>
         {% else %}
+            <!-- Display message if no CSV file uploaded -->
             <p class="lead">No CSV file uploaded.</p>
         {% endif %}
+        
+        <!-- Back to Home button -->
         <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
     </div>
 

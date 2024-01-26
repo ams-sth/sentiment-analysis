@@ -26,12 +26,15 @@ def analyze_csv(file_path):
 def calculate_summary_statistics(df):
     avg_sentiment = df['Sentiment'].mean()
     sentiment_counts = df['Sentiment'].value_counts().sort_index().to_dict()
-    distribution_of_scores = sentiment_counts  # No need to convert it to a dictionary again
+    distribution_of_scores = sentiment_counts  
     num_reviews = df.shape[0]
 
-    return avg_sentiment, sentiment_counts, distribution_of_scores, num_reviews
+    # Most positive and most negative comments
+    most_positive_comment = df.loc[df['Sentiment'].idxmax(), 'Review']
+    most_negative_comment = df.loc[df['Sentiment'].idxmin(), 'Review']
 
-# Section 4: Visualizations - Bar charts, Pie charts and Histograms
+    return avg_sentiment, sentiment_counts, distribution_of_scores, num_reviews, most_positive_comment, most_negative_comment
+
 # Section 4: Visualizations - Bar charts, Pie charts, and Histograms
 def create_sentiment_visualizations(sentiment_counts):
     # Create Pie Chart
@@ -104,7 +107,7 @@ def analyze_csv_route():
         df = analyze_csv(file_path)
 
         # Calculate summary statistics
-        avg_sentiment, sentiment_counts, distribution_of_scores, num_reviews = calculate_summary_statistics(df)
+        avg_sentiment, sentiment_counts, distribution_of_scores, num_reviews, most_positive_comment, most_negative_comment = calculate_summary_statistics(df)
 
         # Inside analyze_csv_route function
         overall_sentiment = "Positive" if avg_sentiment >= 0 else "Negative" if avg_sentiment < 0 else "Neutral"
@@ -117,6 +120,7 @@ def analyze_csv_route():
         return render_template('result_csv.html', table=df.to_html(), file_path=file_path, avg_sentiment=avg_sentiment,
                        distribution_of_scores=distribution_of_scores, num_reviews=num_reviews,
                         chart_url_bar=chart_url_bar, chart_url_pie=chart_url_pie, chart_url_histogram=chart_url_histogram,
+                        most_positive_comment=most_positive_comment, most_negative_comment=most_negative_comment,
                        overall_sentiment=overall_sentiment)
     else:
         return render_template('index.html', error='Please upload a CSV file.')
