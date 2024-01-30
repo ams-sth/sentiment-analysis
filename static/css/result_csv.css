@@ -1,0 +1,41 @@
+body {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.container {
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h1,
+h2,
+h3 {
+  color: #007bff; /* Bootstrap primary color */
+}
+
+.table {
+  margin-top: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+a {
+  color: #007bff; /* Bootstrap primary color */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
