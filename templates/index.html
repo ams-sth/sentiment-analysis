@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sentiment Analysis</title>
-    <!-- Link to external CSS file -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css') }}"
@@ -12,14 +11,12 @@
   </head>
   <body>
     <h1>Sentiment Analysis</h1>
-    <!-- Section 1: For user text -->
     <form action="/analyze" method="post">
       <label for="user_text">Enter Text:</label>
       <input type="text" name="user_text" required />
       <button type="submit">Analyze</button>
     </form>
 
-    <!-- Section 2: For CSV file -->
     <form action="/analyze_csv" method="post" enctype="multipart/form-data">
       <label for="csv_file">Upload CSV File:</label>
       <input type="file" name="csv_file" accept=".csv" required />
