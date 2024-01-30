@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Meta tags for character set and viewport -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Link to Bootstrap CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Title of the page -->
     <title>CSV Analysis Result</title>
     <link
       rel="stylesheet"
@@ -18,127 +15,227 @@
     />
   </head>
   <body>
-    <!-- Bootstrap container for styling -->
     <div class="container">
-      <!-- Heading for the CSV Analysis Result -->
       <h1 class="display-4">CSV Analysis Result</h1>
 
-      <!-- Check if a CSV file is uploaded -->
       {% if file_path %}
-      <!-- Display file path -->
       <p class="lead">File Path: {{ file_path }}</p>
 
-      <!-- Check if there is data to display in the table -->
       {% if table %}
-      <!-- Display CSV Analysis Table -->
       <div class="table-responsive">
         <h2 class="mt-4">CSV Analysis Table:</h2>
         {{ table|safe }}
       </div>
       {% else %}
-      <!-- Display message if no data to display -->
       <p>No data to display.</p>
       {% endif %}
 
-      <!-- Summary Statistics and Distribution of Scores -->
-      <div class="row mt-4">
-        <!-- Left column for Summary Statistics -->
-        <div class="col-md-6">
-          <h2>Summary Statistics:</h2>
-          <p>Average Sentiment Score: {{ avg_sentiment }}</p>
-          <p>Total Number of Reviews: {{ num_reviews }}</p>
-          <p>Overall Sentiment: {{ overall_sentiment }}</p>
+      <div class="accordion mt-4" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Summary Statistics
+              </button>
+            </h2>
+          </div>
 
-          <!-- Most Positive Comment Table -->
-          <h2>Most Positive Comment:</h2>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ most_positive_comment }}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Most Negative Comment Table -->
-          <h2>Most Negative Comment:</h2>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ most_negative_comment }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div
+            id="collapseOne"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <p>Average Sentiment Score: {{ avg_sentiment }}</p>
+                  <p>Total Number of Reviews: {{ num_reviews }}</p>
+                  <p>Overall Sentiment: {{ overall_sentiment }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- Right column for Distribution of Scores -->
-        <div class="col-md-6">
-          <h2>Distribution of Scores:</h2>
-          <!-- Display a table for the distribution -->
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Score</th>
-                <th>Number of Reviews</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Iterate through scores and counts -->
-              {% for score, count in distribution_of_scores.items() %}
-              <tr>
-                <td>{{ score }}</td>
-                <td>{{ count }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Most Positive Comment
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseTwo"
+            class="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th colspan="2" ="text-center">Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">{{ most_positive_comment }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                Most Negative Comment
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseThree"
+            class="collapse"
+            aria-labelledby="headingThree"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center">Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">{{ most_negative_comment }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseFour"
+                aria-expanded="false"
+                aria-controls="collapseFour"
+              >
+                Distribution of Scores
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseFour"
+            class="collapse"
+            aria-labelledby="headingFour"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center">Score</th>
+                    <th class="text-center">Number of Reviews</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for score, count in distribution_of_scores.items() %}
+                  <tr>
+                    <td class="text-center">{{ score }}</td>
+                    <td class="text-center">{{ count }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseFive"
+                aria-expanded="false"
+                aria-controls="collapseFive"
+              >
+                Charts
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseFive"
+            class="collapse"
+            aria-labelledby="headingFive"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <h2 class="mt-4 text-center">Sentiment Distribution:</h2>
+              <div class="text-center">
+                <img
+                  src="data:image/png;base64,{{ chart_url_pie }}"
+                  alt="Sentiment Pie Chart"
+                />
+              </div>
+              <h2 class="text-center">Sentiment Distribution (Bar Chart):</h2>
+              <div class="text-center">
+                <img
+                  src="data:image/png;base64,{{ chart_url_bar }}"
+                  alt="Sentiment Bar Chart"
+                />
+              </div>
+              <h2 class="text-center">Sentiment Distribution (Histogram):</h2>
+              <div class="text-center">
+                <img
+                  src="data:image/png;base64,{{ chart_url_histogram }}"
+                  alt="Sentiment Histogram"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Visualizations: Pie Chart, Bar Chart, and Histogram -->
-      <h2 class="mt-4">Sentiment Distribution:</h2>
-      <!-- Display Pie Chart -->
-      <img
-        src="data:image/png;base64,{{ chart_url_pie }}"
-        alt="Sentiment Pie Chart"
-      />
-      <!-- Display Bar Chart -->
-      <h2>Sentiment Distribution (Bar Chart):</h2>
-      <img
-        src="data:image/png;base64,{{ chart_url_bar }}"
-        alt="Sentiment Bar Chart"
-      />
-      <!-- Display Histogram -->
-      <h2>Sentiment Distribution (Histogram):</h2>
-      <img
-        src="data:image/png;base64,{{ chart_url_histogram }}"
-        alt="Sentiment Histogram"
-      />
-
-      <!-- Download CSV button -->
-      <p>
-        <a href="{{ file_path }}" target="_blank" class="btn btn-primary"
-          >Download CSV</a
-        >
-      </p>
       {% else %}
-      <!-- Display message if no CSV file uploaded -->
       <p class="lead">No CSV file uploaded.</p>
       {% endif %}
-
-      <!-- Back to Home button -->
-      <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
     </div>
 
-    <!-- Link to Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
