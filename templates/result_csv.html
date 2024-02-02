@@ -21,10 +21,92 @@
       {% if file_path %}
       <p class="lead">File Path: {{ file_path }}</p>
 
+      <!-- Display raw data -->
+      <div class="accordion mt-4" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingRawData">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseRawData"
+                aria-expanded="true"
+                aria-controls="collapseRawData"
+              >
+                Raw Data
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseRawData"
+            class="collapse"
+            aria-labelledby="headingRawData"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">{{ raw_data|safe }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Display cleaned data -->
+      <div class="accordion mt-4" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingCleanedData">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseCleanedData"
+                aria-expanded="true"
+                aria-controls="collapseCleanedData"
+              >
+                Cleaned Data
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseCleanedData"
+            class="collapse"
+            aria-labelledby="headingCleanedData"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">{{ cleaned_data|safe }}</div>
+          </div>
+        </div>
+      </div>
+
       {% if table %}
-      <div class="table-responsive">
-        <h2 class="mt-4">CSV Analysis Table:</h2>
-        {{ table|safe }}
+      <!-- Display CSV analysis table -->
+      <div class="accordion mt-4" id="accordionTable">
+        <div class="card">
+          <div class="card-header" id="headingTable">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseTable"
+                aria-expanded="true"
+                aria-controls="collapseTable"
+              >
+                CSV Analysis Table
+              </button>
+            </h2>
+          </div>
+          <div
+            id="collapseTable"
+            class="collapse"
+            aria-labelledby="headingTable"
+            data-parent="#accordionTable"
+          >
+            <div class="card-body table-responsive">
+              <h2 class="mt-4">CSV Analysis Table:</h2>
+              {{ table|safe }}
+            </div>
+          </div>
+        </div>
       </div>
       {% else %}
       <p>No data to display.</p>
@@ -76,7 +158,7 @@
                 aria-expanded="false"
                 aria-controls="collapseTwo"
               >
-                Most Positive Comment
+                Most Positive Comments (Based on their Score)
               </button>
             </h2>
           </div>
@@ -86,19 +168,12 @@
             aria-labelledby="headingTwo"
             data-parent="#accordionExample"
           >
-            <div class="card-body">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th colspan="2" ="text-center">Comment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-center">{{ most_positive_comment }}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="card-body" style="max-height: 500px; overflow-y: auto">
+              <ol>
+                {% for comment in positive_comments %}
+                <li>{{ comment }}</li>
+                {% endfor %}
+              </ol>
             </div>
           </div>
         </div>
@@ -114,7 +189,7 @@
                 aria-expanded="false"
                 aria-controls="collapseThree"
               >
-                Most Negative Comment
+                Most Negative Comments (Based on their Score)
               </button>
             </h2>
           </div>
@@ -124,19 +199,12 @@
             aria-labelledby="headingThree"
             data-parent="#accordionExample"
           >
-            <div class="card-body">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="text-center">Comment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-center">{{ most_negative_comment }}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="card-body" style="max-height: 500px; overflow-y: auto">
+              <ol>
+                {% for comment in negative_comments %}
+                <li>{{ comment }}</li>
+                {% endfor %}
+              </ol>
             </div>
           </div>
         </div>
