@@ -3,7 +3,7 @@ import pandas as pd
 import nltk
 
 nltk.download("punkt", "stopwords")
-nltk.download( "wordnet")
+nltk.download("wordnet")
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -33,17 +33,6 @@ def clean_text(text):
 
 def analyze_csv(file_path):
     df = pd.read_csv(file_path)
-    review_column = None
-    regex = re.compile(r"review", flags=re.IGNORECASE)
-
-    for column in df.columns:
-        if regex.search(column.lower()):
-            review_column = column
-            break
-
-    if review_column is None:
-        raise ValueError("No review column found in the CSV file.")
-    df.rename(columns={review_column: "Review"}, inplace=True)
 
     raw_data = df["Review"].to_frame().to_html()
     df["Review"] = df["Review"].apply(clean_text)
@@ -71,10 +60,15 @@ def calculate_summary_statistics(df):
         most_negative_comment,
     )
 
+
 def get_top_comments(df, positive=True, num_comments=5):
     if positive:
-        sorted_comments = df[df["Sentiment"] > 0].sort_values(by="Sentiment", ascending=False)
+        sorted_comments = df[df["Sentiment"] > 0].sort_values(
+            by="Sentiment", ascending=False
+        )
     else:
-        sorted_comments = df[df["Sentiment"] < 0].sort_values(by="Sentiment", ascending=True)
+        sorted_comments = df[df["Sentiment"] < 0].sort_values(
+            by="Sentiment", ascending=True
+        )
     top_comments = sorted_comments["Review"].head(num_comments).tolist()
     return top_comments

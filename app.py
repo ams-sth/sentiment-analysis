@@ -7,7 +7,8 @@ app = Flask(__name__)
 def enumerate_filter(iterable, start=0):
     return enumerate(iterable, start=start)
 
-app.jinja_env.filters['enumerate'] = enumerate_filter
+
+app.jinja_env.filters["enumerate"] = enumerate_filter
 
 
 app.jinja_env.filters["enumerate"] = enumerate_filter
