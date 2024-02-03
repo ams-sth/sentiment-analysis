@@ -49,7 +49,15 @@ def setup_routes(app):
             )
 
             positive_comments = get_top_comments(df, positive=True)
+            positive_scores = [
+                df.loc[df[df["Review"] == comment].index[0], "Sentiment"]
+                for comment in positive_comments
+            ]
             negative_comments = get_top_comments(df, positive=False)
+            negative_scores = [
+                df.loc[df[df["Review"] == comment].index[0], "Sentiment"]
+                for comment in negative_comments
+            ]
 
             # Create sentiment visualizations
             chart_url_pie, chart_url_bar, chart_url_histogram = (
@@ -69,8 +77,8 @@ def setup_routes(app):
                 chart_url_histogram=chart_url_histogram,
                 most_positive_comment=most_positive_comment,
                 most_negative_comment=most_negative_comment,
-                positive_comments=positive_comments,
-                negative_comments=negative_comments,
+                positive_comments=zip(positive_comments, positive_scores),
+                negative_comments=zip(negative_comments, negative_scores),
                 overall_sentiment=overall_sentiment,
                 raw_data=raw_data,
                 cleaned_data=cleaned_data,
