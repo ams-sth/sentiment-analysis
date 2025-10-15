@@ -1,3 +1,7 @@
 uploads
 _pycache_
-env
+env/
+
+*.pyc
+.env
+.DS_Store
