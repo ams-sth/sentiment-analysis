@@ -1,7 +1,13 @@
-uploads
-_pycache_
+__pycache__/
+.venv/
 env/
+backend/uploads/
 
 *.pyc
 .env
 .DS_Store
+
+# frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
